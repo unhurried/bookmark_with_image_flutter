@@ -29,7 +29,7 @@ class BookmarkStore with ChangeNotifier {
         ') AS b2 WHERE b1.url = b2.url)');
     var list = await _getList();
     bookmarkList = List.generate(list.length, (index) {
-      return BookmarkItem(list[index].url, list[index].thumbnail!);
+      return BookmarkItem(list[index].url, list[index].thumbnail);
     });
     notifyListeners();
   }
@@ -43,7 +43,9 @@ class BookmarkStore with ChangeNotifier {
         title: list[index]['title'],
         thumbnailUrl: list[index]['thumbnailUrl'],
         thumbnailExt: list[index]['thumbnailExt'],
-        thumbnail: base64.decode(list[index]['thumbnail']),
+        thumbnail: list[index]['thubnail'] != null
+            ? base64.decode(list[index]['thumbnail'])
+            : null,
       );
     });
   }

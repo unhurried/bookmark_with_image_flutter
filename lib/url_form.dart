@@ -4,6 +4,15 @@ import 'package:provider/provider.dart';
 
 class UrlForm extends StatelessWidget {
   final _urlInputController = TextEditingController();
+  final onSubmit =
+      (BuildContext context, TextEditingController controller) async {
+    await context.read<BookmarkStore>().addItem(controller.text);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Bookmark added.'),
+      duration: Duration(seconds: 1),
+    ));
+    controller.text = "";
+  };
 
   Widget build(BuildContext context) {
     return Form(
@@ -21,21 +30,18 @@ class UrlForm extends StatelessWidget {
                   isDense: true,
                 ),
                 style: TextStyle(height: 1.0),
+                autofocus: true,
+                onFieldSubmitted: (value) {
+                  onSubmit(context, _urlInputController);
+                },
               ),
             ),
             Container(
               margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
               width: 80,
               child: ElevatedButton(
-                onPressed: () async {
-                  await context
-                      .read<BookmarkStore>()
-                      .addItem(_urlInputController.text);
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Bookmark added.'),
-                    duration: Duration(seconds: 1),
-                  ));
-                  _urlInputController.text = "";
+                onPressed: () {
+                  onSubmit(context, _urlInputController);
                 },
                 child: const Text("Add"),
               ),
