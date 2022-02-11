@@ -43,7 +43,7 @@ class BookmarkStore with ChangeNotifier {
         title: list[index]['title'],
         thumbnailUrl: list[index]['thumbnailUrl'],
         thumbnailExt: list[index]['thumbnailExt'],
-        thumbnail: list[index]['thubnail'] != null
+        thumbnail: list[index]['thumbnail'] != null
             ? base64.decode(list[index]['thumbnail'])
             : null,
       );
