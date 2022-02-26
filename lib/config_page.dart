@@ -1,3 +1,4 @@
+import 'package:bookmark_with_image_flutter/config_form.dart';
 import 'package:flutter/material.dart';
 
 class ConfigPage extends StatelessWidget {
@@ -9,24 +10,19 @@ class ConfigPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
+          children: [
             Container(
               margin: EdgeInsets.zero,
               child: Text(
-                'To be implemented',
-                textAlign: TextAlign.center,
+                'Configuration',
+                textAlign: TextAlign.left,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-              width: 100,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text("Back"),
-              ),
+            SizedBox(
+              height: 15,
             ),
+            Container(margin: EdgeInsets.zero, width: 400, child: ConfigForm()),
           ],
         ),
       ),
