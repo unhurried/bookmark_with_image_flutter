@@ -19,8 +19,6 @@ class BookmarkItem extends StatelessWidget {
         ? []
         : browserOption.launchOptions!.split(' ');
     if (browserPath != null) {
-      print(browserPath);
-      print([...lanchOptions, url]);
       await Process.run(browserPath, [...lanchOptions, url]);
     } else {
       await launch(url);
