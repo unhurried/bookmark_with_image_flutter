@@ -13,14 +13,16 @@ class _ConfigFormState extends State<ConfigForm> {
   final _bpCntr = TextEditingController();
   final _loCntr = TextEditingController();
 
-  onSubmit(BuildContext context) async => {
+  _onSubmit(BuildContext context) async => {
         await context.read<ConfigStore>().set(new ConfigCompanion(
             browserPath: drift.Value(_bpCntr.text),
             launchOptions: drift.Value(_loCntr.text)))
       };
 
   Widget build(BuildContext context) {
-    return Form(
+    var loadingWidget = Text("Loading ...");
+
+    var formWidget = Form(
       child: Column(children: [
         Container(
             alignment: Alignment.centerLeft,
@@ -67,7 +69,8 @@ class _ConfigFormState extends State<ConfigForm> {
               width: 80,
               child: ElevatedButton(
                 onPressed: () {
-                  onSubmit(context);
+                  _onSubmit(context);
+                  Navigator.pop(context);
                 },
                 child: const Text("Save"),
               ),
@@ -80,11 +83,24 @@ class _ConfigFormState extends State<ConfigForm> {
                   Navigator.pop(context);
                 },
                 child: const Text("Cancel"),
+                autofocus: true,
               ),
             ),
           ],
         ),
       ]),
     );
+
+    var builder = FutureBuilder<ConfigData>(
+        future: context.read<ConfigStore>().get,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            _bpCntr.text = snapshot.data?.browserPath ?? "";
+            _loCntr.text = snapshot.data?.launchOptions ?? "";
+          }
+          return snapshot.hasData ? formWidget : loadingWidget;
+        });
+
+    return builder;
   }
 }
