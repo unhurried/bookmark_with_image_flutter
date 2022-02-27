@@ -1,18 +1,23 @@
-import 'package:bookmark_with_image_flutter/bookmark_store.dart';
+import 'package:bookmark_with_image_flutter/orm/config_store.dart';
+import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ConfigForm extends StatelessWidget {
-  final _urlInputController = TextEditingController();
-  final onSubmit =
-      (BuildContext context, TextEditingController controller) async {
-    await context.read<BookmarkStore>().addItem(controller.text);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Bookmark added.'),
-      duration: Duration(seconds: 1),
-    ));
-    controller.text = "";
-  };
+class ConfigForm extends StatefulWidget {
+  const ConfigForm({Key? key}) : super(key: key);
+  @override
+  _ConfigFormState createState() => _ConfigFormState();
+}
+
+class _ConfigFormState extends State<ConfigForm> {
+  final _bpCntr = TextEditingController();
+  final _loCntr = TextEditingController();
+
+  onSubmit(BuildContext context) async => {
+        await context.read<ConfigStore>().set(new ConfigCompanion(
+            browserPath: drift.Value(_bpCntr.text),
+            launchOptions: drift.Value(_loCntr.text)))
+      };
 
   Widget build(BuildContext context) {
     return Form(
@@ -25,7 +30,7 @@ class ConfigForm extends StatelessWidget {
           Container(width: 120, child: Text("Browser Path")),
           Flexible(
             child: TextFormField(
-              controller: _urlInputController,
+              controller: _bpCntr,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding: EdgeInsets.all(10),
@@ -33,9 +38,6 @@ class ConfigForm extends StatelessWidget {
               ),
               style: TextStyle(height: 1.0),
               autofocus: true,
-              onFieldSubmitted: (value) {
-                onSubmit(context, _urlInputController);
-              },
             ),
           ),
         ]),
@@ -44,7 +46,7 @@ class ConfigForm extends StatelessWidget {
           Container(width: 120, child: Text("Launch Options")),
           Flexible(
             child: TextFormField(
-              controller: _urlInputController,
+              controller: _loCntr,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding: EdgeInsets.all(10),
@@ -52,9 +54,6 @@ class ConfigForm extends StatelessWidget {
               ),
               style: TextStyle(height: 1.0),
               autofocus: true,
-              onFieldSubmitted: (value) {
-                onSubmit(context, _urlInputController);
-              },
             ),
           ),
         ]),
@@ -68,7 +67,7 @@ class ConfigForm extends StatelessWidget {
               width: 80,
               child: ElevatedButton(
                 onPressed: () {
-                  onSubmit(context, _urlInputController);
+                  onSubmit(context);
                 },
                 child: const Text("Save"),
               ),
