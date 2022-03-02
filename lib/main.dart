@@ -18,10 +18,10 @@ class App extends StatelessWidget {
       home: MainPage(),
     );
 
-    return MultiProvider(providers: [
-      ChangeNotifierProvider<ConfigStore>(create: (context) {
-        return ConfigStore();
-      })
-    ], child: widget);
+    return Provider<ConfigStore>(
+        create: (context) {
+          return ConfigStore();
+        },
+        child: widget);
   }
 }

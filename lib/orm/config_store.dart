@@ -3,7 +3,6 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'dart:io';
-import 'package:flutter/cupertino.dart' as c;
 
 part 'config_store.g.dart';
 
@@ -25,7 +24,7 @@ LazyDatabase _openConnection() {
 }
 
 @DriftDatabase(tables: [Config])
-class ConfigStore extends _$ConfigStore with c.ChangeNotifier {
+class ConfigStore extends _$ConfigStore {
   ConfigStore() : super(_openConnection());
 
   @override
