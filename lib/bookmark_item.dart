@@ -1,13 +1,30 @@
+import 'dart:io';
 import 'dart:typed_data';
-import 'package:bookmark_with_image_flutter/bookmark_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'orm/bookmark_store.dart';
+import 'orm/config_store.dart';
+
 class BookmarkItem extends StatelessWidget {
   final String url;
   final Uint8List? _thumbnail;
+
   BookmarkItem(this.url, this._thumbnail);
+
+  onTap(BuildContext context, String url) async {
+    var browserOption = await context.read<ConfigStore>().get();
+    var browserPath = browserOption.browserPath;
+    var lanchOptions = browserOption.launchOptions!.isEmpty
+        ? []
+        : browserOption.launchOptions!.split(' ');
+    if (browserPath != null) {
+      await Process.run(browserPath, [...lanchOptions, url]);
+    } else {
+      await launch(url);
+    }
+  }
 
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +34,7 @@ class BookmarkItem extends StatelessWidget {
         children: [
           InkWell(
             onTap: () async {
-              await launch(url);
+              await onTap(context, url);
             },
             child: Container(
               alignment: Alignment.center,
