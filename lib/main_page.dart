@@ -1,11 +1,10 @@
-import 'package:bookmark_with_image_flutter/bookmark_list.dart';
-import 'package:bookmark_with_image_flutter/bookmark_store.dart';
-import 'package:bookmark_with_image_flutter/config_button.dart';
-import 'package:bookmark_with_image_flutter/url_form.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'orm/config_store.dart';
+import 'bookmark_list.dart';
+import 'config_button.dart';
+import 'orm/bookmark_store.dart';
+import 'url_form.dart';
 
 class MainPage extends StatelessWidget {
   @override
@@ -50,10 +49,10 @@ class MainPage extends StatelessWidget {
 
     return MultiProvider(providers: [
       ChangeNotifierProvider<BookmarkStore>(create: (context) {
-        var bs = BookmarkStore();
-        bs.init();
-        return bs;
-      }),
+        final store = new BookmarkStore();
+        store.getList();
+        return store;
+      })
     ], child: widget);
   }
 }

@@ -1,5 +1,6 @@
-import 'package:bookmark_with_image_flutter/config_form.dart';
 import 'package:flutter/material.dart';
+
+import 'config_form.dart';
 
 class ConfigPage extends StatelessWidget {
   @override

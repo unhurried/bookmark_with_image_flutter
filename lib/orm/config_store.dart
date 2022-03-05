@@ -18,7 +18,7 @@ class Config extends Table {
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'db.sqlite'));
+    final file = File(p.join(dbFolder.path, 'config.sqlite'));
     return NativeDatabase(file);
   });
 }
@@ -30,7 +30,10 @@ class ConfigStore extends _$ConfigStore {
   @override
   int get schemaVersion => 1;
 
-  Future<ConfigData> get get => select(config).getSingle();
+  Future<ConfigData> get() async {
+    var record = await select(config).getSingleOrNull();
+    return record ?? new ConfigData(id: "config");
+  }
 
   Future<void> set(ConfigCompanion con) {
     return into(config).insertOnConflictUpdate(con);

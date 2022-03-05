@@ -1,7 +1,8 @@
-import 'package:bookmark_with_image_flutter/bookmark_entity.dart';
 import 'package:universal_html/controller.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
+
+import 'bookmark_entity.dart';
 
 class Scraping {
   Future<BookmarkEntity> createBookmark(String url) async {

@@ -1,6 +1,7 @@
-import 'package:bookmark_with_image_flutter/bookmark_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'orm/bookmark_store.dart';
 
 class UrlForm extends StatelessWidget {
   final _urlInputController = TextEditingController();

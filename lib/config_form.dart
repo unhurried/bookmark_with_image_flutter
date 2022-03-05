@@ -1,7 +1,8 @@
-import 'package:bookmark_with_image_flutter/orm/config_store.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'orm/config_store.dart';
 
 class ConfigForm extends StatefulWidget {
   const ConfigForm({Key? key}) : super(key: key);
@@ -92,7 +93,7 @@ class _ConfigFormState extends State<ConfigForm> {
     );
 
     var builder = FutureBuilder<ConfigData>(
-        future: context.read<ConfigStore>().get,
+        future: context.read<ConfigStore>().get(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             _bpCntr.text = snapshot.data?.browserPath ?? "";
